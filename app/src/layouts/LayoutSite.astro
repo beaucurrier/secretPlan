@@ -1,0 +1,62 @@
+---
+import Topbar from '@components/site/common/Topbar.astro'
+import Footer from '@components/site/common/Footer.astro'
+
+import '@src/site.css'
+
+const { title = 'Secretplan' } = Astro.props
+---
+
+<html lang='en'>
+  <head>
+    <meta name='apple-mobile-web-app-capable' content='yes' />
+
+    <meta
+      name='theme-color'
+      content='#fff'
+      media='(prefers-color-scheme: light)'
+    />
+    <meta
+      name='theme-color'
+      content='#000'
+      media='(prefers-color-scheme: dark)'
+    />
+
+    <link rel='manifest' crossorigin='use-credentials' href='/manifest.json' />
+    <meta charset='utf-8' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='viewport' content='width=device-width' />
+    <meta
+      http-equiv='Content-Security-Policy'
+      content="  
+      default-src 'self' data:; 
+      script-src 'self' https://challenges.cloudflare.com;
+      style-src 'self' 'unsafe-inline';
+      frame-src https://challenges.cloudflare.com; 
+      connect-src 'self'; 
+      img-src 'self' data:;
+      object-src 'none';
+    "
+    />
+    <meta name='generator' content={Astro.generator} />
+    <title>{title}</title>
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/service-worker.js')
+            .catch((error) => {
+              console.log('Service Worker registration failed: ', error)
+            })
+        })
+      }
+    </script>
+  </head>
+  <body class='dark:bg-black dark:text-white'>
+    <div class='max-w-5xl px-4 py-4 mx-auto'>
+      <Topbar />
+      <slot />
+      <Footer />
+    </div>
+  </body>
+</html>
